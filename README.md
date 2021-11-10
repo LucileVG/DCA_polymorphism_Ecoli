@@ -1,30 +1,31 @@
-# DCA to decipher short-term evolution in E. coli
-We use computational models based on Direct Coupling Analysis - [DCA](https://en.wikipedia.org/wiki/Direct_coupling_analysis) trained on [PFAM](http://pfam.xfam.org/) domains of distant distant homologues to accurately predict the polymorphisms segregating in a panel of 61,157 Escherichia coli genomes. 
+# DCA to decipher polymorphism in E. coli strains
+We use computational models based on Direct Coupling Analysis - [DCA](https://en.wikipedia.org/wiki/Direct_coupling_analysis) - trained on [PFAM](http://pfam.xfam.org/) domains of distant distant homologues to accurately predict the polymorphisms segregating in a panel of 61,157 Escherichia coli genomes. 
 
 We show that the genetic context (i.e. the rest of the protein sequence) strongly constrains the tolerable amino acids in 30% to 50% of amino-acid sites. 
 The study suggests the gradual build-up of genetic context over long evolutionary timescales by the accumulation of small epistatic contributions.
 
 
-Paper: [DCA to Deciphering polymorphism in 61,157 Escherichia coli genomes via epistatic sequence landscapes](link to the paper ) (Vigué L.\*,  Croce G.\*, and al. xxxxxxx , 2021)
+Paper: [Deciphering polymorphism in 61,157 Escherichia coli genomes via epistatic sequence landscapes](link to the paper) (Vigué L.\*,  Croce G.\*, and al. xxxxxxx , 2021)
 
-![figure_method](https://github.com/GiancarloCroce/DCA_polymorphism_ecoli/blob/master/ecoli_sequence_landscape.png)
+![figure](ecoli_sequence_landscape.png)
 
 ## Installation:
-To run the code and reproduce the key results from the paper, you need
-- python3 (the code was tested on python v3.8)
-- julia (tested on julia v1.6)
-- hmmer package (tested on hmmer-3.3.2)
+To run the code and reproduce the key results from the paper, you frst need to install 
+- python3: (the code was tested on python v3.8)
+- [julia:](https://julialang.org/)  to run the DCA pseudo-likelihood inference algorithm  (tested on julia v1.6)
+- [hmmer package:](http://hmmer.org/) to generate the multiple sequence alignments (MSA) (tested on hmmer-3.3.2)
 
-To install the python libraries run (it is strongly recommended to use a virtual environment)
+Then clone the repository to a directory of your choice, where you have writing permissions, and install the python libraries run (it is strongly recommended to use a virtual environment)
 ```
 pip install requirements.txt
 ```
 
-You also need to install DCA (plmDCA) for julia (see details in https://github.com/pagnani/PlmDCA)
+You also need to install plmDCA (pseudo-likelihood inference algorithm) for julia (see how to do it from https://github.com/pagnani/PlmDCA)
 
-## Set paths:
+## Config your paths:
 
-Before running the code, you need to set the paths to your julia and hmmalign executable in ```get_pfam_data.py```
+Before running the code, you need to set the paths to your julia and hmmalign executable in ```get_pfam_data.py```.
+Open the file and replace ```path_hmmalign``` and  ```path_julia``` with the paths to the julia and hmmalign executable on your computer.
 
 ## Usage:
 ### Download distant homologues (long-term evolution) and train the DCA model
