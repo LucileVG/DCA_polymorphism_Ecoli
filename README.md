@@ -9,8 +9,10 @@ Paper: [Deciphering polymorphism in 61,157 Escherichia coli genomes via epistati
 
 ![figure](ecoli_sequence_landscape.png)
 
+We provide here the code to reproduce the key results and figures of the paper.
+
 ## Installation:
-To run the code and reproduce the key results from the paper, you frst need to install 
+To run the code, you first need to install :
 - python3: (the code was tested on python v3.8)
 - [julia:](https://julialang.org/)  to run the DCA pseudo-likelihood inference algorithm  (tested on julia v1.6)
 - [hmmer package:](http://hmmer.org/) to generate the multiple sequence alignments (MSA) (tested on hmmer-3.3.2)
@@ -28,6 +30,8 @@ Before running the code, you need to set the paths to your julia and hmmalign ex
 Open the file and replace ```path_hmmalign``` and  ```path_julia``` with the paths to the julia and hmmalign executable on your computer.
 
 ## Usage:
+Our aim is to train a DCA model on distant homologues (PFAM data - long term evolution - highly variable sequences varibility) and use it to predict polymorphism in E. coli strains (short term evolution - most position are highly conserved).
+
 ### Download distant homologues (long-term evolution) and train the DCA model
 -   select a reference protein in the E. coli strain (e.g. GA4805AA_00002)
 -   select a PFAM domain contained in the protein (e.g. PF00288)
@@ -38,7 +42,8 @@ Then, run in you shell:
 python get_pfam_data.py GA4805AA_00002 PF00288
 ```
 
-The script will download the PFAM MSA of distant homologues and train a corresponding DCA model (after removing sequences that are close to the references to avoid overfitting) . 
+The script will download the PFAM MSA of distant homologues (0) and align the reference protein to the MSA (1). After removing sequences from the PFAM MSA that are close to the references to avoid overfitting (2), we can finally train a plmDCA model (3).
+
 The output you should see on your screen:
 ```
 GA4805AA_00002 PF00288
@@ -54,6 +59,11 @@ GA4805AA_00002 PF00288
 removed 6 seq
 
 3. Train DCA model
+DCA of ./pfam_msa/GA4805AA_00002-PF00288.fa
+removing duplicate sequences... done: 27738 -> 23751
+θ = 0.2 threshold = 11.0
+M = 23751 N = 59 Meff = 9872.132486981445
+preprocessing took 1.830936498 seconds
 ```
 
 
@@ -63,7 +73,7 @@ removed 6 seq
 
 (merge with Lucile's code)
 
-### Reproduce key figures
+### Reproduce key results figures
 
 ```
 python make_figures.py
