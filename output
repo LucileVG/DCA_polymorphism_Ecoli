@@ -1,0 +1,19 @@
+GA4805AA_00002 PF00288
+0. Download pfam: PF00288
+1. Align refs to pfam hmm
+2. filter pfam msa
+['ESC_GA4805AA', 'Fergusoni', 'Klebsiella_pneumoniae', 'Atlantibacter_hermannii', 'Pantoea_ananatis', 'K12', 'Albertii', 'E_coli_D', 'Yersiniia_pestis', 'Salmonella']
+removed 6 seq
+3. Train DCA model
+DCA of ./pfam_msa/GA4805AA_00002-PF00288.fa
+removing duplicate sequences... done: 27738 -> 23751
+θ = 0.2 threshold = 11.0
+M = 23751 N = 59 Meff = 9872.132486981445
+preprocessing took 1.830936498 seconds
+GA4805AA_00002 PF00288
+0. Download pfam: PF00288
+1. Align refs to pfam hmm
+2. filter pfam msa
+['ESC_GA4805AA', 'Fergusoni', 'Klebsiella_pneumoniae', 'Atlantibacter_hermannii', 'Pantoea_ananatis', 'K12', 'Albertii', 'E_coli_D', 'Yersiniia_pestis', 'Salmonella']
+removed 6 seq
+3. Train DCA model
