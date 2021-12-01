@@ -16,6 +16,7 @@ To run the code, you first need to install :
 - python3: (the code was tested on python v3.8)
 - [julia:](https://julialang.org/)  to run the DCA pseudo-likelihood inference algorithm  (tested on julia v1.6)
 - [hmmer package:](http://hmmer.org/) to generate the multiple sequence alignments (MSA) (tested on hmmer-3.3.2)
+- [mafft:](https://mafft.cbrc.jp/alignment/software/) to align sequences (tested on v7.471 (2020/Jul/3))
 
 Then clone the repository to a directory of your choice, where you have writing permissions, and install the python libraries run (it is strongly recommended to use a virtual environment)
 ```
@@ -66,16 +67,15 @@ M = 23751 N = 59 Meff = 9872.132486981445
 preprocessing took 1.830936498 seconds
 ```
 
+### Reproduce key results
 
-### Generate MSAs of E. coli strains (short-term evolution)
--   select a reference protein in the E. coli strain (e.g. GA4805AA_00002)
--   path to the E. coli strain proteome database
+Upload data from Dryad at XXXX and untar different archives.
 
-(merge with Lucile's code)
-
-### Reproduce key results figures
+Train DCA models using MSAs available in data/distant_homologs/msa (for local strains study) and data/distant_homologs_2/msa (for closely related species study) and store the results in a DCAparameters folder (in data/distant_homologs/ or data/distant_homologs_2/ respectively).
 
 ```
-python make_figures.py
+python3 analyse_coli_strains.py
+python3 analyse_closely_diverged_species.py
+jupyter lab Produce_Figures.ipynb
 ```
 
