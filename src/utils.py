@@ -5,7 +5,7 @@ import pandas as pd
 from Bio import SeqIO
 from pathlib import Path
 from collections import defaultdict
-from config import valid_aa, d_aa_num, path_dca_par, Codons_list, TRANSLATION_TABLE, AA_list
+from config import valid_aa, d_aa_num, Codons_list, TRANSLATION_TABLE, AA_list
 
 #from config import *
 
@@ -48,8 +48,8 @@ def read_fasta(path):
     with open(path, "r") as input:
         return list(SeqIO.parse(input, "fasta"))
 
-def read_dca_par(path_dca_par, ref_prot):
-    matrices = np.load(os.path.join(path_dca_par, ref_prot+".fa.npz"))
+def read_dca_par(dca_models_path, ref_prot):
+    matrices = np.load(os.path.join(dca_models_path, ref_prot+".fa.npz"))
     return matrices["h_dca"], matrices["J_dca"]
 
 def translate(sequence):
@@ -150,11 +150,11 @@ def matrix2df(matrix, sequence, output_folder):
     df[["Context"]+proba_columns].to_csv(output_folder / "DCA_proba.csv",index=None)
     df[["Context","CD_Entropy"]].to_csv(output_folder / "CD_Entropy.csv",index=None)
 
-def gene_single_mutant_scores(output_folder):
+def gene_single_mutant_scores(dca_models_path, output_folder):
     '''
     For a given gene, compute DCA scores and derivated quantities and write results in corresponding csv files.
     '''
-    h, J = read_dca_par(path_dca_par, output_folder.name)
+    h, J = read_dca_par(dca_models_path, output_folder.name)
     output_directory = output_folder / "reference_analysis"
     sequence = read_fasta(output_directory / "reference_sequence.fasta")[0]
     AA_sequence = translate(str(sequence.seq))
@@ -678,7 +678,7 @@ def single_muts(seq,refseq):
     else:
         return []
 
-def double_muts(folder):
+def double_muts(dca_models_path, folder):
     '''
     Compute score of double mutants and compare it to the sum of the scores of single mutants
     for sequences that have exactly 2 amino acid changes from the reference.
@@ -687,7 +687,7 @@ def double_muts(folder):
     msa = [str(sequence.seq) for sequence in read_fasta(folder / "homologs_analysis" / "sequences" / "unique_AA_aln.fasta")]
     selection = [seq for seq in msa if sum([int(seq[i]!=refseq[i]) for i in range(len(refseq))])==2]
     sequences = {seq:single_muts(seq,refseq) for seq in selection}
-    h,J = read_dca_par(path_dca_par, folder.stem)
+    h,J = read_dca_par(dca_models_path, folder.stem)
     E_refseq = compute_energy(refseq, h, J)
     Double_mut, Sum_single_mut, Loci_1, Loci_2 = list(), list(), list(), list()
     if(all_standard_aa(refseq)):
@@ -717,12 +717,12 @@ def merge_df(filename, input_folder, output_folder):
             dfs.append(df)
     pd.concat(dfs).to_csv(output_folder / filename, index=None)
 
-def IPR(folder):
+def IPR(dca_models_path, folder):
     '''
     Compute IPR values for all positions in the reference sequence corresponding to the input folder.
     '''
     refseq = translate(read_fasta(folder / "reference_analysis" / "reference_sequence.fasta")[0].seq)
-    h,J = read_dca_par(path_dca_par, folder.stem)
+    h,J = read_dca_par(dca_models_path, folder.stem)
     Locus, IPR = list(), list()
     for i in range(len(refseq)):
         J_vector = list()
@@ -805,7 +805,6 @@ def process_gene(gene, output_folder, msa_folder, aln_folder, dca_path):
     '''
     Read sequences of closely related species, store fixed differences and compute DCA scores.
     '''
-    # MODIFIED
     make_output_folders(gene, output_folder)
     fasta_filename = "{}.fasta".format(gene)
     aln_file = aln_folder / fasta_filename
@@ -916,7 +915,7 @@ def couplings(gene, dca_path, aln_folder):
     fixed between E. coli and Y. pestis.
     '''
     h,J = read_dca_par(dca_path, gene.stem)
-    fasta_filename = "{}.fasta".format(gene.stem)
+    fasta_filename = "{}.fa".format(gene.stem)
     distant_sequences = read_fasta(aln_folder / fasta_filename)
     for sequence in distant_sequences:
         if(sequence.id=="ESC_GA4805AA"):

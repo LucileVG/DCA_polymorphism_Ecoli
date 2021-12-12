@@ -1,12 +1,6 @@
-import numpy as np
-from pathlib import Path
-import os
-
-#aa list and dictionaries
+# Global variables
 valid_aa = ['A','C','D','E','F','G','H','I','K','L','M','N','P','Q','R','S','T','V','W','Y','-']
-aa_3= ['ALA','CYS','ASP','GLU','PHE','GLY','HIS','ILE','LYS','LEU','MET','ASN','PRO','GLN','ARG','SER','THR','VAL','TRP','TYR','-']
-
-AA_list = ['A','C','D','E','F','G','H','I','K','L','M','N','P','Q','R','S','T','V','W','Y','-','Other']
+AA_list = valid_aa + ['Other']
 
 Codons_list = list()
 for i in list("ATGC"):
@@ -34,68 +28,40 @@ TRANSLATION_TABLE = {
     'TGC':'C', 'TGT':'C', 'TGA':'*', 'TGG':'W'}
 
 d_aa_num= {a:i for i,a in enumerate(valid_aa)}
-d_num_aa= {i:a for i,a in enumerate(valid_aa)}
-d_3to1 = {a3:a1 for a3,a1 in zip(aa_3,valid_aa)}
 
-def get_list_ref( list_genes = 'list_genes_more61000.txt'):
-    list_ref_prot = []
-    #list ref protein to consider! (ONLY CORE GENOME!)
-    f = open(os.path.join(path_ref_proteome,list_genes), "r")
-    for line in f.readlines():
-        list_ref_prot.append("ref_"+line.rstrip())
-    f.close()
-    return list_ref_prot
+# Paths to folders and files
+
+reference = "ESC_GA4805AA"
+
+# Input data
+path_reference = f"./datasets/{reference}.fasta"
+local_dca_msa_path = './datasets/DCA_training_MSAs/local_strains'
+cl_dv_dca_msa_path = './datasets/DCA_training_MSAs/closely_related_species'
+local_dca_models_path = './datasets/DCA_models/local_strains'
+cl_dv_dca_models_path = './datasets/DCA_models/closely_related_species'
+local_homologs_path = f'./datasets/homologous_sequences/local_strains'
+cl_dv_homologs_path = f'./datasets/homologous_sequences/closely_related_species'
 
 
-#SET ALL PATHs
-name_ref_proteome = "ESC_GA4805AA.fa"
-#name_ref_proteome = "ESC_consensus.fa"
+# Output files
 
-path_ref_proteome = "./data/refstrain_"+name_ref_proteome[:-3]
-tmp_path = './tmp'  #make directory for tmp files (reference sequences, a3m file from hhblits)
-#for hhblits
-path_db_hhblits = "/media/data/db/UniRef30_2020_03/UniRef30_2020_03"
-name_db_hhblits = "UniRef30_2020_03"
-path_hhblits = "/home/admin/Documents/programs/hh-suite/build/bin/hhblits"
-msa_path_hhblits = './data/distant_homologs/msa'
-#for dca
-path_dca_par = './data/distant_homologs/DCAparameters'
-#for phmmer
-path_db_phmmer= "/media/data/db/StrainEcoRef100/all_strains_proteomes_uniq_with_cluster_members.fa"
-path_phmmer = "/home/admin/Documents/programs/hmmer-3.3.1/src/phmmer"
-#msa for energy-computation (phmmer or random)
-msa_path_phmmer = './data/local/msa_'+name_ref_proteome[:-3]
-msa_path_ind = './data/local/msa_'+name_ref_proteome[:-3]+'_ind'
-msa_path_random = './data/local/msa_'+name_ref_proteome[:-3]+'_random'
-#folder containing enegy data
-e_path = './data/e_'+name_ref_proteome[:-3]
-#folder containing entropy data
-s_path = './data/s_'+name_ref_proteome[:-3]
+# Directories for temporary files
+tmp_path = './tmp'
+local_tmp_analysis_folder = "local_strains" 
+cl_dv_tmp_analysis_folder = "closely_related_species"
 
-#folder with dna msa of local homologs
-dna_msa_path = './data/local/dna_msa_'+name_ref_proteome[:-3]
-#temporary folder for gene analysis
-msa_tmp_analysis_folder = "msa_analysis" 
-#stats file
-stats_file_path = './data/local/stats_{}.csv'.format(name_ref_proteome[:-3])
-#simulations file
-simulations_file_path = "./data/local/simulated_sites_{}.csv".format(name_ref_proteome[:-3])
-#mutants sites file
-mutants_file_path ="./data/local/mutants_sites_{}.csv".format(name_ref_proteome[:-3])
-#supplementary figures folder
-supp_figures_path = "./imgs/supplementary_figures"
+# Directory for results
+results_folder = "./results"
+# stats file
+stats_file_path = f'{results_folder}/stats_{reference}.csv'
+# simulations file
+simulations_file_path = f"{results_folder}/simulated_sites_{reference}.csv"
+# mutants sites file
+mutants_file_path = f"{results_folder}/mutants_sites_{reference}.csv"
 
-def make_folder():
-    #distant
-    Path(tmp_path).mkdir(parents=True, exist_ok=True)
-    Path(msa_path_hhblits).mkdir(parents=True, exist_ok=True)
-    Path(path_dca_par).mkdir(parents=True, exist_ok=True)
-    #local
-    Path(msa_path_phmmer).mkdir(parents=True, exist_ok=True)
-    Path(msa_path_ind).mkdir(parents=True, exist_ok=True)
-    Path(msa_path_random).mkdir(parents=True, exist_ok=True)
-    Path(e_path).mkdir(parents=True, exist_ok=True)
-    Path(s_path).mkdir(parents=True, exist_ok=True)
-    return 0
+
+# Path to program
+
+path_julia = "julia"
 
 
