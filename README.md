@@ -32,7 +32,7 @@ Our aim is to train a DCA model on distant homologues (PFAM data - long term evo
 
 ## Reproduce key results
 
-Upload data from Zenodo at https://zenodo.org/record/5774192#.YbUZILvjLJE (DOI 10.5281/zenodo.5774191) and put the tar archive in this repository. Then use following commands to perform data analysis.
+Download data from Zenodo at https://zenodo.org/record/5774192#.YbUZILvjLJE (DOI 10.5281/zenodo.5774191) and put the tar archive in this repository. Then use following commands to perform data analysis.
 
 ```
 ./extract_dataset.sh
