@@ -33,7 +33,7 @@ Open the file  ```src/config.py``` with your favorite editor, and replace ```pat
 ## Usage:
 Our aim is to train a DCA model on distant homologues (PFAM data - long term evolution - highly variable sequences varibility) and use it to predict polymorphism in E. coli strains (short term evolution - most positions are highly conserved).
 
-## Demo
+## Demo:
 
 Run the following commands to test the demo:
 
@@ -54,7 +54,7 @@ This should take about 30 minutes to run on a normal computer. It should output 
 
 NB: the demo dataset is provided in order to check that the code is running properly. However to reduce computational time MSAs have been stripped and only a few sites and protein domains are covered (which contradicts a bit the spirit of our work and prevents any robust signal to emerge from data analysis).
 
-## Reproduce key results
+## Reproduce key results:
 
 To run the code on the real dataset, download data from Zenodo at https://zenodo.org/record/5774192#.YbUZILvjLJE (DOI 10.5281/zenodo.5774191) and put the tar archive in this repository (replace the existing datasets.tar archive which is the demo dataset). Then use following commands to perform data analysis.
 
