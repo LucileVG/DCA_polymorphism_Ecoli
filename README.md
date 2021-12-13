@@ -35,7 +35,7 @@ Our aim is to train a DCA model on distant homologues (PFAM data - long term evo
 Download data from Zenodo at https://zenodo.org/record/5774192#.YbUZILvjLJE (DOI 10.5281/zenodo.5774191) and put the tar archive in this repository. Then use following commands to perform data analysis.
 
 ```
-./extract_dataset.sh
+./extract_datasets.sh
 python3 train_dca_models.py
 python3 analyse_coli_strains.py
 python3 analyse_closely_diverged_species.py
