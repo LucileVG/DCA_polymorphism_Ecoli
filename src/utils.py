@@ -497,8 +497,8 @@ def stats_entropy(directory):
     Gather CD and CI entropy in same csv.
     '''
     gene = (directory.stem)
-    CI_entropy = pd.read_csv(directory / "distant_homologs" / "CI_entropy.csv",sep=",")
-    CD_entropy = pd.read_csv(directory / "reference_analysis" / "CD_entropy.csv",sep=",")
+    CI_entropy = pd.read_csv(directory / "distant_homologs" / "CI_Entropy.csv",sep=",")
+    CD_entropy = pd.read_csv(directory / "reference_analysis" / "CD_Entropy.csv",sep=",")
     CI_entropy["Gene"] = gene
     CI_entropy["Locus"] = -1
     for i in range(len(CI_entropy)):
