@@ -24,15 +24,39 @@ It is strongly recommended to use a virtual environment.
  
 You also need to install plmDCA (pseudo-likelihood inference algorithm) for julia (see how to do it from https://github.com/pagnani/PlmDCA)
 
+The typical installation time on a normal computer should be about 15 minutes and should not exceed 45 minutes.
+
+
 ## Config your paths:
 Open the file  ```src/config.py``` with your favorite editor, and replace ```path_julia``` with the path to the julia executable on your computer.
 
 ## Usage:
 Our aim is to train a DCA model on distant homologues (PFAM data - long term evolution - highly variable sequences varibility) and use it to predict polymorphism in E. coli strains (short term evolution - most positions are highly conserved).
 
+## Demo
+
+Run the following commands to test the demo:
+
+```
+./extract_datasets.sh
+python3 train_dca_models.py
+python3 analyse_coli_strains.py
+python3 analyse_closely_diverged_species.py
+jupyter lab Produce_Figures.ipynb
+```
+This should take about 30 minutes to run on a normal computer. It should output the following results:
+
+- ```./extract_datasets.sh``` should untar different archives in a "datasets" folder
+- ```python3 train_dca_models.py``` should create a "DCA_models" in the "datasets" folder and fill it with trained DCA models
+- ```python3 analyse_coli_strains.py``` ```python3 analyse_closely_diverged_species.py``` should create a "tmp" and a "results" folder. The "tmp" folder will be filled with files used for intermediate computations (can be removed at the end of the analysis). The "results" folder will be filed with the following files: couplings.csv, double_mut_epistasis.csv, files.txt, full_seq_single_muts.csv, IPR.csv, mutants_sites_ESC_GA4805AA.csv, simulated_sites_ESC_GA4805AA.csv, stats_ESC_GA4805AA.csv, syn_sim_results_1.csv, synsim_results_2.csv 
+- ```jupyter lab Produce_Figures.ipynb``` will allow to analyse the csv files in the "results" folder and generate figures in a "Figures" it creates.
+
+
+NB: the demo dataset is provided in order to check that the code is running properly. However to reduce computational time MSAs have been stripped and only a few sites and protein domains are covered (which contradicts a bit the spirit of our work and prevents any robust signal to emerge from data analysis).
+
 ## Reproduce key results
 
-Download data from Zenodo at https://zenodo.org/record/5774192#.YbUZILvjLJE (DOI 10.5281/zenodo.5774191) and put the tar archive in this repository. Then use following commands to perform data analysis.
+To run the code on the real dataset, download data from Zenodo at https://zenodo.org/record/5774192#.YbUZILvjLJE (DOI 10.5281/zenodo.5774191) and put the tar archive in this repository (replace the existing datasets.tar archive which is the demo dataset). Then use following commands to perform data analysis.
 
 ```
 ./extract_datasets.sh
