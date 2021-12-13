@@ -806,9 +806,8 @@ def process_gene(gene, output_folder, msa_folder, aln_folder, dca_path):
     Read sequences of closely related species, store fixed differences and compute DCA scores.
     '''
     make_output_folders(gene, output_folder)
-    fasta_filename = "{}.fasta".format(gene)
-    aln_file = aln_folder / fasta_filename
-    msa_file = msa_folder / fasta_filename
+    aln_file = aln_folder / f"{gene}.fasta"
+    msa_file = msa_folder / f"{gene}.fa"
     h,J = read_dca_par(dca_path, gene)
     distant_sequences = read_fasta(aln_file)
     seqid = list()
