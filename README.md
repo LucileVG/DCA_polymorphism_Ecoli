@@ -54,7 +54,7 @@ This should take about 30 minutes to run on a normal computer. It should output 
 
 NB1: the demo dataset is provided in order to check that the code is running properly. However to reduce computational time MSAs have been stripped and only a few sites and protein domains are covered (which contradicts a bit the spirit of our work and prevents any robust signal to emerge from data analysis).
 
-NB2: you might need to give the "./extract_datasets.sh" proper permissions in order to execute it (``chmod u+x extract_datasets.sh```).
+NB2: you might need to give the "./extract_datasets.sh" proper permissions in order to execute it (```chmod u+x extract_datasets.sh```).
 
 ## Reproduce key results:
 
