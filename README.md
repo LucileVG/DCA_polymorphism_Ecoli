@@ -48,8 +48,8 @@ This should take about 30 minutes to run on a normal computer. It should output 
 
 - ```./extract_datasets.sh``` should untar different archives in a "datasets" folder
 - ```python3 train_dca_models.py``` should create a "DCA_models" in the "datasets" folder and fill it with trained DCA models
-- ```python3 analyse_coli_strains.py``` ```python3 analyse_closely_diverged_species.py``` should create a "tmp" and a "results" folder. The "tmp" folder will be filled with files used for intermediate computations (can be removed at the end of the analysis). The "results" folder will be filed with the following files: couplings.csv, double_mut_epistasis.csv, files.txt, full_seq_single_muts.csv, IPR.csv, mutants_sites_ESC_GA4805AA.csv, simulated_sites_ESC_GA4805AA.csv, stats_ESC_GA4805AA.csv, syn_sim_results_1.csv, synsim_results_2.csv 
-- ```jupyter lab Produce_Figures.ipynb``` will allow to analyse the csv files in the "results" folder and generate figures in a "Figures" it creates.
+- ```python3 analyse_coli_strains.py``` ```python3 analyse_closely_diverged_species.py``` should create a "tmp" and a "results" folder. The "tmp" folder will be filled with files used for intermediate computations (can be removed at the end of the analysis). The "results" folder will be filed with the following files: couplings.csv, double_mut_epistasis.csv, full_seq_single_muts.csv, IPR.csv, mutants_sites_ESC_GA4805AA.csv, simulated_sites_ESC_GA4805AA.csv, stats_ESC_GA4805AA.csv. 
+- ```jupyter lab Produce_Figures.ipynb``` should allow to analyse the csv files in the "results" folder and generate corresponding figures in a "Figures" folder it creates.
 
 
 NB: the demo dataset is provided in order to check that the code is running properly. However to reduce computational time MSAs have been stripped and only a few sites and protein domains are covered (which contradicts a bit the spirit of our work and prevents any robust signal to emerge from data analysis).
