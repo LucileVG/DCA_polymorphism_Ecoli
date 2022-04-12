@@ -112,6 +112,14 @@ def perform_DCA(sequence, J, h):
     Compute energy for any single mutant and store results in a matrix.
     '''
     n = len(sequence)
+    if not all_standard_aa(sequence):
+        seq = ""
+        for aa in sequence:
+            if not aa in valid_aa:
+                seq += "-"
+            else:
+                seq += aa
+        sequence = seq
     energy_ref = compute_energy(sequence, h, J)
     energy_matrix = np.zeros((n,len(valid_aa)))
     for i in range(n):
@@ -410,14 +418,8 @@ def distant_homologs_analysis(output_folder):
     '''
     Read AA alignment and summarize it in a dataframe, compute CI entropy as well.
     '''
-    AA_sequences = read_fasta(output_folder / "distant_homologs.fasta")
-    n_AA = len(AA_sequences[0])
-    AA_df = pd.DataFrame(np.zeros((n_AA,len(AA_list))))
-    AA_df.columns = AA_list
-    for AA_seq in AA_sequences:
-        AA_df = analyse_AA_sequence(str(AA_seq.seq).upper(),AA_df)
-    AA_df.to_csv(output_folder / "distant_homologs.csv",sep=";",index=None)
-    AA_df["Sum"] = AA_df[AA_list[:-2]].apply(sum,axis=1)
+    AA_df = pd.read_csv(output_folder / "distant_homologs.csv")
+    AA_df["Sum"] = AA_df.apply(sum,axis=1)
     for character in AA_list[:-2]:
         AA_df["{}_proba".format(character)] = AA_df[character]/AA_df["Sum"]
         AA_df["{}_entropy".format(character)] = AA_df["{}_proba".format(character)].apply(entropy)
@@ -430,7 +432,7 @@ def gather_possible_mutants(directory):
     For each gene, gather scores of possible mutants + information on the type of mutation (accessible, profile).
     '''
     gene = directory.stem
-    profile = pd.read_csv(directory / "distant_homologs" / "distant_homologs.csv", sep=";")
+    profile = pd.read_csv(directory / "distant_homologs" / "distant_homologs.csv")
     accessible = pd.read_csv(directory / "reference_analysis" / "accessible_mutants.csv")
     observed = pd.read_csv(directory / "homologs_analysis" / "all_AA.csv",sep=";")
     DCA = pd.read_csv(directory / "reference_analysis" / "DCA_scores.csv")
@@ -466,10 +468,9 @@ def site_freq(directory):
     '''
     gene = (directory.stem)
     DCA_proba = pd.read_csv(directory / "reference_analysis" / "DCA_proba.csv",sep=",")
-    distant_homologs = pd.read_csv(directory / "distant_homologs" / "distant_homologs.csv",sep=";")
+    distant_homologs = pd.read_csv(directory / "distant_homologs" / "distant_homologs.csv")
     all_AA = pd.read_csv(directory / "homologs_analysis" / "all_AA.csv",sep=";")
-    distant_homologs["Total"] = distant_homologs.sum(axis=1)
-    distant_homologs["Prop_gaps_distant"] = (distant_homologs["-"]+distant_homologs["Other"])/distant_homologs["Total"]
+    distant_homologs["Prop_gaps_distant"] = 1-distant_homologs.sum(axis=1)
     distant_homologs["Gene"] = gene
     distant_homologs["Locus"] = -1
     for i in range(len(distant_homologs)):
