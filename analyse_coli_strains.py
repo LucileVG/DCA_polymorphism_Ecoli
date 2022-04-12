@@ -11,7 +11,7 @@ synonymous_mutations,  homologs_analysis, distant_homologs_analysis,
 gene_single_mutant_scores, gather_possible_mutants, 
 compute_site_stats, merge_dfs, gather_info_sites, double_muts, 
 merge_df,IPR)
-from config import (path_reference, tmp_path, local_dca_msa_path,
+from config import (path_reference, tmp_path, local_dca_msa_path, local_freq_msa_path,
 local_dca_models_path, local_homologs_path, local_tmp_analysis_folder, 
 stats_file_path, simulations_file_path, mutants_file_path, results_folder)
 
@@ -39,14 +39,16 @@ def main():
        gene = file.stem
        dca_model = Path(f"{local_dca_models_path}/{gene}.fa.npz")
        distant_homolog_file = "{}.fa".format(gene)
-       if(gene in reference.keys() and (Path(local_dca_msa_path) / distant_homolog_file).is_file()):
-           gene_folder =  Path(tmp_path) / local_tmp_analysis_folder / gene
-           genes.append(gene_folder)
-           make_gene_folders(gene_folder)
-           write_fasta(gene_folder / "reference_analysis" / "reference_sequence.fasta", [reference[gene]])
-           write_fasta(gene_folder / "homologs_analysis" / "homologs.fasta", read_fasta(file))
-           write_fasta(gene_folder / "distant_homologs" / "distant_homologs.fasta", read_fasta(Path(local_dca_msa_path) / distant_homolog_file))
-    
+       if(gene in reference.keys() and (Path(local_dca_msa_path) / distant_homolog_file).is_file() and dca_model.is_file() and (Path(local_freq_msa_path)/distant_homolog_file).is_file()):
+            distant_homolog_seq = read_fasta(Path(local_dca_msa_path) / distant_homolog_file)
+            if len(distant_homolog_seq)>=200:
+                gene_folder =  Path(tmp_path) / local_tmp_analysis_folder / gene
+                genes.append(gene_folder)
+                make_gene_folders(gene_folder)
+                write_fasta(gene_folder / "reference_analysis" / "reference_sequence.fasta", [reference[gene]])
+                write_fasta(gene_folder / "homologs_analysis" / "homologs.fasta", read_fasta(file))
+                (Path(local_freq_msa_path)/distant_homolog_file).rename(gene_folder / "distant_homologs" / "distant_homologs.csv")
+
     Parallel(n_jobs=num_cores)(delayed(gene_single_mutant_scores)(local_dca_models_path, gene) for gene in genes)
     Parallel(n_jobs=num_cores)(delayed(accessible_mutations)(gene / "reference_analysis") for gene in genes)
     Parallel(n_jobs=num_cores)(delayed(accessible_codons)(gene / "reference_analysis") for gene in genes)
