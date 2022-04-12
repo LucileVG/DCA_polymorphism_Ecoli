@@ -36,6 +36,7 @@ reference = "ESC_GA4805AA"
 # Input data
 path_reference = f"./datasets/{reference}.fasta"
 local_dca_msa_path = './datasets/DCA_training_MSAs/local_strains'
+local_freq_msa_path = './datasets/weighted_frequencies'
 cl_dv_dca_msa_path = './datasets/DCA_training_MSAs/closely_related_species'
 local_dca_models_path = './datasets/DCA_models/local_strains'
 cl_dv_dca_models_path = './datasets/DCA_models/closely_related_species'
