@@ -11,7 +11,8 @@ max_gap_fraction = 0.9
 remove_dups = true
 θ = 0.2
 
-@distributed for filename in filelist
+#@distributed for filename in filelist
+for filename in filelist
    if endswith(filename, ".fa")
        aln = DCAUtils.ReadFastaAlignment.read_fasta_alignment("./datasets/DCA_training_MSAs/local_strains/"*filename, max_gap_fraction)
        if remove_dups
