@@ -4,7 +4,7 @@ We use computational models based on Direct Coupling Analysis - [DCA](https://en
 We show that the genetic context (i.e. the rest of the protein sequence) strongly constrains the tolerable amino acids in 30% to 50% of amino-acid sites. Our study also suggests the gradual build-up of genetic context over long evolutionary timescales by the accumulation of small epistatic contributions.
 
 
-Paper: [Deciphering polymorphism in 61,157 Escherichia coli genomes via epistatic sequence landscapes](link to the paper) (Vigué L.\*,  Croce G.\*, and al. xxxxxxx , 2021)
+Paper: [Deciphering polymorphism in 61,157 Escherichia coli genomes via epistatic sequence landscapes](link to the paper) (Vigué L.\*,  Croce G.\*, and al. xxxxxxx , 2022)
 
 ![figure](ecoli_sequence_landscape.png)
 
@@ -13,7 +13,7 @@ We provide here the code to reproduce the key results and figures of the paper.
 ## Installation:
 To run the code, you first need to install :
 - python3: (the code was tested on python v3.8)
-- [julia:](https://julialang.org/)  to run the DCA pseudo-likelihood inference algorithm  (tested on julia v1.6)
+- [julia:](https://julialang.org/)  to run the DCA pseudo-likelihood inference algorithm  (tested on julia v1.6) with the following packages installed: plmDCA (https://github.com/pagnani/PlmDCA), NPZ and DCAUtils.
 - [mafft:](https://mafft.cbrc.jp/alignment/software/) to align sequences (tested on v7.471 (2020/Jul/3))
 
 Then clone the repository to a directory of your choice, where you have writing permissions, and install the python libraries by running:
@@ -21,8 +21,6 @@ Then clone the repository to a directory of your choice, where you have writing 
 pip install requirements.txt
 ```
 It is strongly recommended to use a virtual environment.
- 
-You also need to install plmDCA (pseudo-likelihood inference algorithm) for julia (see how to do it from https://github.com/pagnani/PlmDCA)
 
 The typical installation time on a normal computer should be about 15 minutes and should not exceed 45 minutes.
 
@@ -39,7 +37,7 @@ Run the following commands to test the demo:
 
 ```
 ./extract_datasets.sh
-python3 train_dca_models.py
+python3 train_models.py
 python3 analyse_coli_strains.py
 python3 analyse_closely_diverged_species.py
 jupyter lab Produce_Figures.ipynb
@@ -47,7 +45,7 @@ jupyter lab Produce_Figures.ipynb
 This should take about 30 minutes to run on a normal computer. It should output the following results:
 
 - ```./extract_datasets.sh``` should untar different archives in a "datasets" folder
-- ```python3 train_dca_models.py``` should create a "DCA_models" in the "datasets" folder and fill it with trained DCA models
+- ```python3 train_models.py``` should create a "weighted_frequencies" folder in the "datasets" folder filled with trained IND models and a "DCA_models" in the "datasets" folder filled it with trained DCA models.
 - ```python3 analyse_coli_strains.py``` ```python3 analyse_closely_diverged_species.py``` should create a "tmp" and a "results" folder. The "tmp" folder will be filled with files used for intermediate computations (can be removed at the end of the analysis). The "results" folder will be filed with the following files: couplings.csv, double_mut_epistasis.csv, full_seq_single_muts.csv, IPR.csv, mutants_sites_ESC_GA4805AA.csv, simulated_sites_ESC_GA4805AA.csv, stats_ESC_GA4805AA.csv. 
 - ```jupyter lab Produce_Figures.ipynb``` should allow to analyse the csv files in the "results" folder and generate corresponding figures in a "Figures" folder it creates.
 
@@ -62,7 +60,7 @@ To run the code on the real dataset, download data from Zenodo at https://zenodo
 
 ```
 ./extract_datasets.sh
-python3 train_dca_models.py
+python3 train_models.py
 python3 analyse_coli_strains.py
 python3 analyse_closely_diverged_species.py
 jupyter lab Produce_Figures.ipynb
