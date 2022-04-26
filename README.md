@@ -56,7 +56,7 @@ NB2: you might need to give the "./extract_datasets.sh" proper permissions in or
 
 ## Reproduce key results:
 
-To run the code on the real dataset, download data from Zenodo at https://zenodo.org/record/5774192#.YbUZILvjLJE (DOI 10.5281/zenodo.5774191) and put the tar archive in this repository (replace the existing datasets.tar archive which is the demo dataset). Then use following commands to perform data analysis.
+To run the code on the real dataset, download data from Zenodo at https://zenodo.org/record/5774192#.YbUZILvjLJE (DOI 10.5281/zenodo.5774191) and put the tar archive in this repository (replace the existing datasets.tar archive which is the demo dataset). Then use following commands to perform data analysis. The list of genes and Pfam domains analysed is provided in the ```gene_domains.csv``` file.
 
 ```
 ./extract_datasets.sh
